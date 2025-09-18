@@ -34,6 +34,27 @@
       border-bottom-right-radius: 50% 20%;
     }
 
+
+.wedding-header .and {
+  color: #d63384;   /* highlight the & */
+  font-size: 1.5rem;
+  display: inline-block;
+  margin: 0 10px;
+}
+
+/* Mobile: stack names line by line */
+@media (max-width: 600px) {
+  .wedding-header h1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .wedding-header .and {
+    margin: 10px 0;
+  }
+}
+
+
     header h1 {
       font-size: 3rem;
       margin-bottom: 10px;
@@ -117,15 +138,16 @@
 </head>
 <body>
 
-<header>
+<header class="wedding-header">
   <h1>
-    <span style="display:inline-block; margin-right:10px;">Indhu</span> 
-    <span style="font-size:2rem; color:#ff4081;">♥</span> 
-    <span style="display:inline-block; margin-left:10px;">Mani</span>
+    <span class="name">Indhu</span>
+    <span class="and">&</span>
+    <span class="name">Mani</span>
   </h1>
   <p>We joyfully invite you to our wedding celebration</p>
   <p><b>25th November 2025</b></p>
 </header>
+
 
   <section>
     <h2>Our Homes</h2>
@@ -191,6 +213,7 @@
 
 </body>
 </html>
+
 
 
 
