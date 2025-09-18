@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wedding Invitation</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+      color: #2c2c2c;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Playfair Display', serif;
+      color: #1a1a1a;
+      margin-bottom: 10px;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      color: white;
+      border-bottom-left-radius: 50% 20%;
+      border-bottom-right-radius: 50% 20%;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      font-weight: 300;
+    }
+
+    section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    section h2 {
+      text-align: center;
+      color: #e63971;
+      margin-bottom: 25px;
+      font-size: 2rem;
+    }
+
+    .details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #fafafa;
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      color: #e63971;
+      margin-bottom: 10px;
+    }
+
+    .map-link {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 18px;
+      background: #e63971;
+      color: white;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      transition: background 0.3s ease;
+    }
+
+    .map-link:hover {
+      background: #c22d5d;
+    }
+
+    .countdown {
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: #333;
+      margin-top: 15px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>💍 Mani & Indhu</h1>
+    <p>We joyfully invite you to our wedding celebration</p>
+    <p><b>26th November 2025 | 5:00 AM</b></p>
+  </header>
+
+  <section>
+    <h2>Our Homes</h2>
+    <div class="details">
+      <div class="card">
+        <h3>🏠 Bride’s Home</h3>
+        <p>Indhu Pydi</p>
+        <p>Father: Janardhana Rao</p>
+        <p>Plot-32, Lakshmi Nagar Colony, Chapuram, Balaga (Rural), Srikakulam, Andhra Pradesh, 532001</p>
+        <p><b>Reception:</b> 23 Nov, 8:00 AM</p>
+        <a class="map-link" href="https://maps.app.goo.gl/q6g8PFjXHgBH97wZA" target="_blank">View on Map</a>
+      </div>
+      <div class="card">
+        <h3>🏠 Groom’s Home</h3>
+        <p>Mani Yenni</p>
+        <p>Father: Dalinaidu</p>
+        <p>2-2-27, Venkayyapeta (Village), Korlakota (Post), Amadalavalasa (Mandal), Srikakulam (District)</p>
+        <p><b>Bhojanlu:</b> 25 Nov, 6:00 PM</p>
+        <p><b>Marriage:</b> 26 Nov, 5:00 AM</p>
+        <a class="map-link" href="https://maps.app.goo.gl/WVyiNyZnBYUWf48y9" target="_blank">View on Map</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Wedding Venue</h2>
+    <div class="card">
+      <p>Marriage & Celebrations at Groom's Home</p>
+      <a class="map-link" href="https://maps.app.goo.gl/WVyiNyZnBYUWf48y9" target="_blank">View Venue</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Countdown to Our Big Day</h2>
+    <div class="countdown" id="countdown"></div>
+  </section>
+
+  <footer>
+    With love ❤️ Mani & Indhu
+  </footer>
+
+  <script>
+    const weddingDate = new Date("Nov 26, 2025 05:00:00").getTime();
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = weddingDate - now;
+
+      if (distance < 0) {
+        document.getElementById("countdown").innerHTML = "We are married! 🎉";
+        clearInterval(timer);
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("countdown").innerHTML =
+        days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+    }, 1000);
+  </script>
+
+</body>
+</html>
