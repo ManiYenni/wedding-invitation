@@ -285,9 +285,9 @@
     <span>❤️</span>
   </div>
   <h1>
-    <span class="name">Indhu</span>
+    <span class="name" id="bride-name">Indhu</span>
     <span class="and">❤️</span>
-    <span class="name">Mani</span>
+    <span class="name" id="groom-name">Mani</span>
   </h1>
   <p id="invite-text">We joyfully invite you to our wedding celebration</p>
   <p id="date-text"><b>25th November 2025</b></p>
@@ -298,7 +298,7 @@
   <div class="details">
     <div class="card">
       <h3 id="bride-home">🏠 Bride’s Home</h3>
-      <p id="bride-name">Indhu Pydi</p>
+      <p id="bride-namee">Indhu Pydi</p>
       <p id="bride-father">Father: Janardhana Rao</p>
       <p id="bride-address">No:G2, RS Devi Complex, ramalaxmana, junction, GT Rd, opp. Relax hotel, Indira Nagar Colony, Visakha B Colony, Radha Krishna Nagar Colony, Srikakulam, Andhra Pradesh 532001</p>
       <p id="bride-reception"><b>Reception:</b> 23 Nov, 8:00 AM</p>
@@ -306,7 +306,7 @@
     </div>
     <div class="card">
       <h3 id="groom-home">🏠 Groom’s Home</h3>
-      <p id="groom-name">Mani Yenni</p>
+      <p id="groom-namee">Mani Yenni</p>
       <p id="groom-father">Father: Dalinaidu</p>
       <p id="groom-address">2-2-27, Venkayyapeta (Village), Korlakota (Post), Amadalavalasa (Mandal), Srikakulam (District), Andhra Pradesh 532185</p>
       <p id="groom-lunch"><b>Lunch:</b> 25 Nov, 6:00 PM</p>
@@ -338,6 +338,10 @@
 
   const translations = {
     en: {
+      brideName: "Indhu",
+      groomName: "Mani",
+      brideNamee: "Indhu Pydi",
+      groomNamee: "Mani Yenni",
       invite: "We joyfully invite you to our wedding celebration",
       date: "25th November 2025",
       homes: "Our Homes",
@@ -357,6 +361,10 @@
       footer: "With love ❤️ Mani & Indhu"
     },
     te: {
+      brideName: "మణి",
+      groomName: "ఇంధు",
+      brideNamee: "ఇంధు పైడి",
+      groomNamee: "మణి ఎన్ని",
       invite: "మా వివాహ వేడుకకు మిమ్మల్ని ఆనందంతో ఆహ్వానిస్తున్నాము",
       date: "25 నవంబర్ 2025",
       homes: "మా ఇల్లు",
@@ -381,7 +389,10 @@
     const switchEl = document.getElementById("lang-switch");
     isTelugu = switchEl.checked;
     const lang = isTelugu ? translations.te : translations.en;
-
+    document.getElementById("bride-name").innerText = lang.brideName;
+    document.getElementById("groom-name").innerText = lang.groomName;
+    document.getElementById("bride-namee").innerText = lang.brideNamee;
+    document.getElementById("groom-namee").innerText = lang.groomNamee;
     document.getElementById("invite-text").innerText = lang.invite;
     document.getElementById("date-text").innerText = lang.date;
     document.getElementById("homes-title").innerText = lang.homes;
