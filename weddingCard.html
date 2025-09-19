@@ -21,6 +21,73 @@
       margin-bottom: 10px;
     }
 
+    /* 🔹 Language toggle */
+    .lang-toggle {
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      z-index: 9999;
+    }
+
+    .lang-toggle span {
+      transition: 0.3s;
+    }
+
+    .lang-toggle span.active {
+      color: #e63971;
+      font-weight: 700;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 46px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #e63971;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(22px);
+    }
+
+    /* Other existing styles (header, sections, etc.) remain same */
     header {
       text-align: center;
       padding: 60px 20px;
@@ -141,7 +208,6 @@
       animation: fadeUp 1.5s ease-in-out;
     }
 
-    /* Floating Hearts Animation */
     .hearts {
       position: absolute;
       width: 100%;
@@ -166,7 +232,6 @@
     .hearts span:nth-child(4) { left: 80%; animation-duration: 4s; }
     .hearts span:nth-child(5) { left: 50%; animation-duration: 5.5s; }
 
-    /* Keyframes */
     @keyframes floatUp {
       0% { transform: translateY(0) scale(0.8); opacity: 1; }
       50% { transform: translateY(-200px) scale(1.2); opacity: 0.7; }
@@ -201,6 +266,16 @@
 </head>
 <body>
 
+<!-- 🔹 Language Toggle Switch -->
+<div class="lang-toggle">
+  <span id="lang-en" class="active">EN</span>
+  <label class="switch">
+    <input type="checkbox" id="lang-switch" onchange="toggleLanguage()">
+    <span class="slider"></span>
+  </label>
+  <span id="lang-te">TE</span>
+</div>
+
 <header class="wedding-header">
   <div class="hearts">
     <span>❤️</span>
@@ -214,51 +289,123 @@
     <span class="and">❤️</span>
     <span class="name">Mani</span>
   </h1>
-  <p>We joyfully invite you to our wedding celebration</p>
-  <p><b>25th November 2025</b></p>
+  <p id="invite-text">We joyfully invite you to our wedding celebration</p>
+  <p id="date-text"><b>25th November 2025</b></p>
 </header>
 
 <section>
-  <h2>Our Homes</h2>
+  <h2 id="homes-title">Our Homes</h2>
   <div class="details">
     <div class="card">
-      <h3>🏠 Bride’s Home</h3>
-      <p>Indhu Pydi</p>
-      <p>Father: Janardhana Rao</p>
-      <p>No:G2, RS Devi Complex, ramalaxmana, junction, GT Rd, opp. Relax hotel, Indira Nagar Colony, Visakha B Colony, Radha Krishna Nagar Colony, Srikakulam, Andhra Pradesh 532001</p>
-      <p><b>Reception:</b> 23 Nov, 8:00 AM</p>
-      <a class="map-link" href="https://maps.app.goo.gl/ZqgNAyXSsUGM6ttV7" target="_blank">View on Map</a>
+      <h3 id="bride-home">🏠 Bride’s Home</h3>
+      <p id="bride-name">Indhu Pydi</p>
+      <p id="bride-father">Father: Janardhana Rao</p>
+      <p id="bride-address">No:G2, RS Devi Complex, ramalaxmana, junction, GT Rd, opp. Relax hotel, Indira Nagar Colony, Visakha B Colony, Radha Krishna Nagar Colony, Srikakulam, Andhra Pradesh 532001</p>
+      <p id="bride-reception"><b>Reception:</b> 23 Nov, 8:00 AM</p>
+      <a class="map-link" href="https://maps.app.goo.gl/ZqgNAyXSsUGM6ttV7" target="_blank" id="bride-map">View on Map</a>
     </div>
     <div class="card">
-      <h3>🏠 Groom’s Home</h3>
-      <p>Mani Yenni</p>
-      <p>Father: Dalinaidu</p>
-      <p>2-2-27, Venkayyapeta (Village), Korlakota (Post), Amadalavalasa (Mandal), Srikakulam (District), Andhra Pradesh 532185</p>
-      <p><b>Lunch:</b> 25 Nov, 6:00 PM</p>
-      <p><b>Marriage:</b> 26 Nov, 5:00 AM</p>
-      <a class="map-link" href="https://maps.app.goo.gl/Nzt3ZYWVp2fxScz36" target="_blank">View on Map</a>
+      <h3 id="groom-home">🏠 Groom’s Home</h3>
+      <p id="groom-name">Mani Yenni</p>
+      <p id="groom-father">Father: Dalinaidu</p>
+      <p id="groom-address">2-2-27, Venkayyapeta (Village), Korlakota (Post), Amadalavalasa (Mandal), Srikakulam (District), Andhra Pradesh 532185</p>
+      <p id="groom-lunch"><b>Lunch:</b> 25 Nov, 6:00 PM</p>
+      <p id="groom-marriage"><b>Marriage:</b> 26 Nov, 5:00 AM</p>
+      <a class="map-link" href="https://maps.app.goo.gl/Nzt3ZYWVp2fxScz36" target="_blank" id="groom-map">View on Map</a>
     </div>
   </div>
 </section>
 
 <section>
-  <h2>Wedding Venue</h2>
+  <h2 id="venue-title">Wedding Venue</h2>
   <div class="card">
-    <p>Marriage & Celebrations at Groom's Home</p>
-    <a class="map-link" href="https://maps.app.goo.gl/Nzt3ZYWVp2fxScz36" target="_blank">View Venue</a>
+    <p id="venue-text">Marriage & Celebrations at Groom's Home</p>
+    <a class="map-link" href="https://maps.app.goo.gl/Nzt3ZYWVp2fxScz36" target="_blank" id="venue-map">View Venue</a>
   </div>
 </section>
 
 <section>
-  <h2>Countdown to Our Big Day</h2>
+  <h2 id="countdown-title">Countdown to Our Big Day</h2>
   <div class="countdown" id="countdown"></div>
 </section>
 
-<footer>
+<footer id="footer-text">
   With love ❤️ Mani & Indhu
 </footer>
 
 <script>
+  let isTelugu = false;
+
+  const translations = {
+    en: {
+      invite: "We joyfully invite you to our wedding celebration",
+      date: "25th November 2025",
+      homes: "Our Homes",
+      brideHome: "🏠 Bride’s Home",
+      brideFather: "Father: Janardhana Rao",
+      brideReception: "Reception: 23 Nov, 8:00 AM",
+      brideMap: "View on Map",
+      groomHome: "🏠 Groom’s Home",
+      groomFather: "Father: Dalinaidu",
+      groomLunch: "Lunch: 25 Nov, 6:00 PM",
+      groomMarriage: "Marriage: 26 Nov, 5:00 AM",
+      groomMap: "View on Map",
+      venue: "Wedding Venue",
+      venueText: "Marriage & Celebrations at Groom's Home",
+      venueMap: "View Venue",
+      countdown: "Countdown to Our Big Day",
+      footer: "With love ❤️ Mani & Indhu"
+    },
+    te: {
+      invite: "మా వివాహ వేడుకకు మిమ్మల్ని ఆనందంతో ఆహ్వానిస్తున్నాము",
+      date: "25 నవంబర్ 2025",
+      homes: "మా ఇల్లు",
+      brideHome: "🏠 వధువు ఇల్లు",
+      brideFather: "తండ్రి: జనార్ధన రావు",
+      brideReception: "స్వాగతం: 23 నవంబర్, ఉదయం 8:00",
+      brideMap: "మ్యాప్‌లో చూడండి",
+      groomHome: "🏠 వరుడు ఇల్లు",
+      groomFather: "తండ్రి: దలినాయుడు",
+      groomLunch: "భోజనం: 25 నవంబర్, సాయంత్రం 6:00",
+      groomMarriage: "వివాహం: 26 నవంబర్, ఉదయం 5:00",
+      groomMap: "మ్యాప్‌లో చూడండి",
+      venue: "వివాహ వేదిక",
+      venueText: "వివాహం & వేడుకలు వరుడు ఇంటి వద్ద",
+      venueMap: "వేదిక చూడండి",
+      countdown: "మా గొప్ప రోజు వరకు కౌంట్‌డౌన్",
+      footer: "స్నేహంతో ❤️ మణి & ఇంధు"
+    }
+  };
+
+  function toggleLanguage() {
+    const switchEl = document.getElementById("lang-switch");
+    isTelugu = switchEl.checked;
+    const lang = isTelugu ? translations.te : translations.en;
+
+    document.getElementById("invite-text").innerText = lang.invite;
+    document.getElementById("date-text").innerText = lang.date;
+    document.getElementById("homes-title").innerText = lang.homes;
+    document.getElementById("bride-home").innerText = lang.brideHome;
+    document.getElementById("bride-father").innerText = lang.brideFather;
+    document.getElementById("bride-reception").innerText = lang.brideReception;
+    document.getElementById("bride-map").innerText = lang.brideMap;
+    document.getElementById("groom-home").innerText = lang.groomHome;
+    document.getElementById("groom-father").innerText = lang.groomFather;
+    document.getElementById("groom-lunch").innerText = lang.groomLunch;
+    document.getElementById("groom-marriage").innerText = lang.groomMarriage;
+    document.getElementById("groom-map").innerText = lang.groomMap;
+    document.getElementById("venue-title").innerText = lang.venue;
+    document.getElementById("venue-text").innerText = lang.venueText;
+    document.getElementById("venue-map").innerText = lang.venueMap;
+    document.getElementById("countdown-title").innerText = lang.countdown;
+    document.getElementById("footer-text").innerText = lang.footer;
+
+    // highlight active label
+    document.getElementById("lang-en").classList.toggle("active", !isTelugu);
+    document.getElementById("lang-te").classList.toggle("active", isTelugu);
+  }
+
+  // Countdown Timer
   const weddingDate = new Date("Nov 26, 2025 05:00:00").getTime();
   const timer = setInterval(() => {
     const now = new Date().getTime();
