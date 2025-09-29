@@ -569,32 +569,37 @@ saveBtn.addEventListener("click", async () => {
     ctx.fillStyle = attending ? "green" : "gray";
     ctx.fillText(attending ? "Attending ✅" : "Not Attending ❌", 50, 150);
 
-    // Convert canvas to blob for upload
-    canvas.toBlob(async (blob) => {
-      const formData = new FormData();
-      formData.append("photo", blob, originalFile.name);
+   // Convert canvas to blob for upload
+canvas.toBlob(async (blob) => {
+  // Construct new filename
+  const extension = originalFile.name.split('.').pop(); // get file extension
+  const attendanceStr = attending ? "Yes" : "No";
+  const filename = `${name.replace(/\s+/g, '_')}_${attendanceStr}.${extension}`;
 
-      try {
-        const res = await fetch("https://weddingcard-backend.vercel.app/photos-upload", {
-          method: "POST",
-          body: formData,
-        });
+    const formData = new FormData();
+    formData.append("photo", blob, filename); // use new filename
 
-        const data = await res.json();
-        if (data.success) {
-          status.innerHTML = `🎉 ${name}, your RSVP has been saved!<br>
-            <a href="${data.fileUrl}" target="_blank">View your uploaded image</a>`;
-          fileInput.value = "";
-          details.style.display = "none";
-          preview.innerHTML = "";
-        } else {
-          status.innerText = "Upload failed ❌";
-        }
-      } catch (err) {
-        console.error(err);
-        status.innerText = "Error uploading image";
+    try {
+      const res = await fetch("https://weddingcard-backend.vercel.app/photos-upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        status.innerHTML = `🎉 ${name}, your RSVP has been saved!<br>
+          <a href="${data.fileUrl}" target="_blank">View your uploaded image</a>`;
+        fileInput.value = "";
+        details.style.display = "none";
+        preview.innerHTML = "";
+      } else {
+        status.innerText = "Upload failed ❌";
       }
-    }, originalFile.type);
+    } catch (err) {
+      console.error(err);
+      status.innerText = "Error uploading image";
+    }
+  }, originalFile.type);
   };
 });
   
@@ -602,4 +607,3 @@ saveBtn.addEventListener("click", async () => {
 
 </body>
 </html>
-
