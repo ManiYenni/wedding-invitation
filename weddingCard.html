@@ -352,15 +352,25 @@
     <!-- Hidden until photo is uploaded -->
     <div id="details" style="display:none; margin-top:15px;">
       <input type="text" id="guestName" placeholder="Enter your name" required />
-      <label class="rsvp">
-        <input type="checkbox" id="attending" />
-        <span>✔ I will attend the wedding</span>
-      </label>
+      
+      <!-- Radio button group -->
+      <div class="rsvp">
+        <label>
+          <input type="radio" name="attendance" value="yes" required />
+          ✔ Yes, I will attend the wedding
+        </label>
+        <label>
+          <input type="radio" name="attendance" value="no" />
+          ❌ No, I cannot attend
+        </label>
+      </div>
+      
       <button id="saveBtn">Save</button>
     </div>
   </div>
   <p id="upload-status"></p>
 </section>
+
 <section>
   <h2 id="homes-title">Our Homes</h2>
   <div class="details">
@@ -538,10 +548,26 @@ saveBtn.addEventListener("click", async () => {
   }
 
   const name = document.getElementById("guestName").value;
-  const attending = document.getElementById("attending").checked;
+
+  // Get selected attendance from radio buttons
+  const attendanceRadios = document.getElementsByName("attendance");
+  let attending = null;
+  for (const radio of attendanceRadios) {
+    if (radio.checked) {
+      attending = radio.value === "yes"; // true for yes, false for no
+      break;
+    }
+  }
 
   if (!name) {
     status.innerText = "Please enter your name.";
+    alert("Please enter your name.");
+    return;
+  }
+
+  if (attending === null) { // mandatory radio check
+    status.innerText = "Please select your attendance (Yes or No).";
+    alert("Please select your attendance (Yes or No).");
     return;
   }
 
@@ -569,37 +595,39 @@ saveBtn.addEventListener("click", async () => {
     ctx.fillStyle = attending ? "green" : "gray";
     ctx.fillText(attending ? "Attending ✅" : "Not Attending ❌", 50, 150);
 
-   // Convert canvas to blob for upload
-canvas.toBlob(async (blob) => {
-  // Construct new filename
-  const extension = originalFile.name.split('.').pop(); // get file extension
-  const attendanceStr = attending ? "Yes" : "No";
-  const filename = `${name.replace(/\s+/g, '_')}_${attendanceStr}.${extension}`;
+    // Convert canvas to blob for upload
+    canvas.toBlob(async (blob) => {
+      // Construct new filename
+      const extension = originalFile.name.split('.').pop(); // get file extension
+      const attendanceStr = attending ? "Yes" : "No";
+      const filename = `${name.replace(/\s+/g, '_')}_${attendanceStr}.${extension}`;
 
-    const formData = new FormData();
-    formData.append("photo", blob, filename); // use new filename
+      const formData = new FormData();
+      formData.append("photo", blob, filename); // use new filename
 
-    try {
-      const res = await fetch("https://weddingcard-backend.vercel.app/photos-upload", {
-        method: "POST",
-        body: formData,
-      });
+      try {
+        const res = await fetch("https://weddingcard-backend.vercel.app/photos-upload", {
+          method: "POST",
+          body: formData,
+        });
 
-      const data = await res.json();
-      if (data.success) {
-        status.innerHTML = `🎉 ${name}, your RSVP has been saved!<br>
-          <a href="${data.fileUrl}" target="_blank">View your uploaded image</a>`;
-        fileInput.value = "";
-        details.style.display = "none";
-        preview.innerHTML = "";
-      } else {
-        status.innerText = "Upload failed ❌";
+        const data = await res.json();
+        if (data.success) {
+          status.innerHTML = `🎉 ${name}, your RSVP has been saved!<br>
+            <a href="${data.fileUrl}" target="_blank">View your uploaded image</a>`;
+          fileInput.value = "";
+          details.style.display = "none";
+          preview.innerHTML = "";
+          // Reset radio buttons
+          attendanceRadios.forEach(r => r.checked = false);
+        } else {
+          status.innerText = "Upload failed ❌";
+        }
+      } catch (err) {
+        console.error(err);
+        status.innerText = "Error uploading image";
       }
-    } catch (err) {
-      console.error(err);
-      status.innerText = "Error uploading image";
-    }
-  }, originalFile.type);
+    }, originalFile.type);
   };
 });
   
