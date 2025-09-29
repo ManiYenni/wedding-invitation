@@ -262,7 +262,56 @@
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.05); }
     }
+
+    .upload-card {
+  background: #fafafa;
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.preview img {
+  margin-top: 15px;
+  max-width: 200px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  animation: fadeIn 1s ease-in-out;
+}
+
+#details input[type="text"] {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.rsvp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+#details button {
+  padding: 10px 20px;
+  background: #e63971;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+#details button:hover {
+  background: #c22d5d;
+  transform: scale(1.05);
+}
   </style>
+   
 </head>
 <body>
 
@@ -292,7 +341,26 @@
   <p id="invite-text">We joyfully invite you to our wedding celebration</p>
   <p id="date-text"><b>25th November 2025</b></p>
 </header>
+<section>
+  <h2>📸 Upload Your Selfie to Mark Attendance</h2>
+  <div class="upload-card">
+    <input type="file" id="photo" accept="image/*" required />
 
+    <!-- Preview will be shown here -->
+    <div class="preview" id="preview"></div>
+
+    <!-- Hidden until photo is uploaded -->
+    <div id="details" style="display:none; margin-top:15px;">
+      <input type="text" id="guestName" placeholder="Enter your name" required />
+      <label class="rsvp">
+        <input type="checkbox" id="attending" />
+        <span>✔ I will attend the wedding</span>
+      </label>
+      <button id="saveBtn">Save</button>
+    </div>
+  </div>
+  <p id="upload-status"></p>
+</section>
 <section>
   <h2 id="homes-title">Our Homes</h2>
   <div class="details">
@@ -436,6 +504,100 @@
     document.getElementById("countdown").innerHTML =
       days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
   }, 1000);
+
+  // Photo upload preview and details
+   const fileInput = document.getElementById("photo");
+const preview = document.getElementById("preview");
+const details = document.getElementById("details");
+const status = document.getElementById("upload-status");
+const saveBtn = document.getElementById("saveBtn");
+
+let originalFile = null;
+
+// Step 1: preview file locally only
+fileInput.addEventListener("change", () => {
+  const file = fileInput.files[0];
+  if (!file) return;
+  originalFile = file;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    preview.innerHTML = `<img src="${e.target.result}" 
+                          style="max-width:200px; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,0.1);" />`;
+  };
+  reader.readAsDataURL(file);
+
+  details.style.display = "block";
+});
+
+// Step 2: on save, draw name + attendance on image and upload
+saveBtn.addEventListener("click", async () => {
+  if (!originalFile) {
+    status.innerText = "Please select a photo.";
+    return;
+  }
+
+  const name = document.getElementById("guestName").value;
+  const attending = document.getElementById("attending").checked;
+
+  if (!name) {
+    status.innerText = "Please enter your name.";
+    return;
+  }
+
+  status.innerText = "Processing image...";
+
+  // Create a canvas to draw text on the image
+  const img = new Image();
+  img.src = URL.createObjectURL(originalFile);
+  img.onload = async () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext("2d");
+
+    // Draw original image
+    ctx.drawImage(img, 0, 0);
+
+    // Draw name
+    ctx.font = "bold 50px Arial";
+    ctx.fillStyle = "red";
+    ctx.fillText(name, 50, 80);
+
+    // Draw attendance
+    ctx.font = "bold 40px Arial";
+    ctx.fillStyle = attending ? "green" : "gray";
+    ctx.fillText(attending ? "Attending ✅" : "Not Attending ❌", 50, 150);
+
+    // Convert canvas to blob for upload
+    canvas.toBlob(async (blob) => {
+      const formData = new FormData();
+      formData.append("photo", blob, originalFile.name);
+
+      try {
+        const res = await fetch("https://weddingcard-backend.vercel.app/photos-upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          status.innerHTML = `🎉 ${name}, your RSVP has been saved!<br>
+            <a href="${data.fileUrl}" target="_blank">View your uploaded image</a>`;
+          fileInput.value = "";
+          details.style.display = "none";
+          preview.innerHTML = "";
+        } else {
+          status.innerText = "Upload failed ❌";
+        }
+      } catch (err) {
+        console.error(err);
+        status.innerText = "Error uploading image";
+      }
+    }, originalFile.type);
+  };
+});
+  
 </script>
 
 </body>
