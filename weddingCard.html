@@ -310,6 +310,48 @@
   background: #c22d5d;
   transform: scale(1.05);
 }
+.carousel {
+  position: relative;
+  width: 600px;
+  height: 300px;
+  overflow: hidden;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.6s ease-in-out; /* 👈 Sliding motion */
+}
+
+.carousel img {
+  width: 600px;
+  height: 300px;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+button:hover {
+  background: rgba(0,0,0,0.7);
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
   </style>
    
 </head>
@@ -401,7 +443,18 @@
     <a class="map-link" href="https://maps.app.goo.gl/Nzt3ZYWVp2fxScz36" target="_blank" id="venue-map">View Venue</a>
   </div>
 </section>
+<section>
+  <div class="carousel">
+  <div class="carousel-track">
+    <img src="groom_1.jpeg" alt="Slide 1" />
+    <img src="groom_2.jpeg" alt="Slide 2" />
+    <img src="groom_3.jpeg" alt="Slide 3" />
+  </div>
 
+  <button class="prev">‹</button>
+  <button class="next">›</button>
+</div>
+</section>
 <section>
   <h2 id="countdown-title">Countdown to Our Big Day</h2>
   <div class="countdown" id="countdown"></div>
@@ -632,7 +685,35 @@ saveBtn.addEventListener("click", async () => {
 });
   
 </script>
+<script>
+  const track = document.querySelector('.carousel-track');
+  const slides = document.querySelectorAll('.carousel img');
+  const nextButton = document.querySelector('.next');
+  const prevButton = document.querySelector('.prev');
 
+  let currentIndex = 0;
+
+  function updateSlidePosition() {
+    track.style.transform = `translateX(-${currentIndex * 600}px)`; 
+  }
+
+  nextButton.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % slides.length;
+    updateSlidePosition();
+  });
+
+  prevButton.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+    updateSlidePosition();
+  });
+
+  // Optional: Auto-slide every 3 seconds
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % slides.length;
+    updateSlidePosition();
+  }, 3000);
+</script>
 </body>
 </html>
+
 
