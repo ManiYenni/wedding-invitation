@@ -477,6 +477,7 @@
   </div>
 </section>
 <section>
+  <h2 id="photos-title">Meet the Bride & Groom</h2>
   <div class="carousel">
   <div class="carousel-track">
     <img src="groom_1.jpeg" alt="Slide 1" />
@@ -522,7 +523,8 @@
       venueText: "Marriage & Celebrations at Groom's Home",
       venueMap: "View Venue",
       countdown: "Countdown to Our Big Day",
-      footer: "With love ❤️ Mani & Indhu"
+      footer: "With love ❤️ Mani & Indhu",
+      photostitle: "Meet the Bride & Groom",
     },
     te: {
       brideName: "మణి",
@@ -545,7 +547,8 @@
       venueText: "వివాహం & వేడుకలు వరుడు ఇంటి వద్ద",
       venueMap: "వేదిక చూడండి",
       countdown: "మా గొప్ప రోజు వరకు కౌంట్‌డౌన్",
-      footer: "స్నేహంతో ❤️ మణి & ఇంధు"
+      footer: "స్నేహంతో ❤️ మణి & ఇంధు",
+      photostitle: "వధూవరులను కలవండి",
     }
   };
 
@@ -574,6 +577,7 @@
     document.getElementById("venue-map").innerText = lang.venueMap;
     document.getElementById("countdown-title").innerText = lang.countdown;
     document.getElementById("footer-text").innerText = lang.footer;
+    document.getElementById("photos-title").innerText = lang.photostitle;
 
     // highlight active label
     document.getElementById("lang-en").classList.toggle("active", !isTelugu);
@@ -748,6 +752,7 @@ saveBtn.addEventListener("click", async () => {
 </script>
 </body>
 </html>
+
 
 
 
