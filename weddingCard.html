@@ -309,46 +309,48 @@
 #details button:hover {
   background: #c22d5d;
   transform: scale(1.05);
-}
- .carousel {
+}* {
+    box-sizing: border-box;
+  }
+
+  .carousel {
     position: relative;
-    width: 90%;
-    max-width: 600px;
-    aspect-ratio: 2 / 1; /* Keeps consistent height ratio */
-    overflow: hidden;
+    width: 100%;
+    max-width: 800px;
     margin: auto;
-    border-radius: 10px;
+    overflow: hidden;
+    border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   }
 
   .carousel-track {
     display: flex;
-    transition: transform 0.6s ease-in-out;
+    transition: transform 0.5s ease-in-out;
   }
 
   .carousel img {
     width: 100%;
-    height: 100%;
+    height: auto;
     flex-shrink: 0;
     object-fit: cover;
   }
 
-  button {
+  .carousel button {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     color: white;
     border: none;
-    font-size: 2rem;
     cursor: pointer;
-    padding: 5px 10px;
-    border-radius: 5px;
-    z-index: 2;
+    padding: 10px 14px;
+    font-size: 20px;
+    border-radius: 50%;
+    z-index: 10;
   }
 
-  button:hover {
-    background: rgba(0, 0, 0, 0.7);
+  .carousel button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
   }
 
   .prev {
@@ -727,31 +729,60 @@ saveBtn.addEventListener("click", async () => {
   const slides = document.querySelectorAll('.carousel img');
   const nextButton = document.querySelector('.next');
   const prevButton = document.querySelector('.prev');
+  const carousel = document.querySelector('.carousel');
 
   let currentIndex = 0;
+  let autoSlide;
 
-  function updateSlidePosition() {
-    track.style.transform = `translateX(-${currentIndex * 600}px)`; 
+  function getSlideWidth() {
+    return slides[0].clientWidth;
   }
 
-  nextButton.addEventListener('click', () => {
+  function updateSlidePosition() {
+    const width = getSlideWidth();
+    track.style.transition = 'transform 0.5s ease-in-out';
+    track.style.transform = `translateX(-${currentIndex * width}px)`;
+  }
+
+  function nextSlide() {
     currentIndex = (currentIndex + 1) % slides.length;
     updateSlidePosition();
-  });
+  }
 
-  prevButton.addEventListener('click', () => {
+  function prevSlide() {
     currentIndex = (currentIndex - 1 + slides.length) % slides.length;
     updateSlidePosition();
-  });
+  }
 
-  // Optional: Auto-slide every 3 seconds
-  setInterval(() => {
-    currentIndex = (currentIndex + 1) % slides.length;
+  nextButton.addEventListener('click', nextSlide);
+  prevButton.addEventListener('click', prevSlide);
+
+  function startAutoSlide() {
+    autoSlide = setInterval(nextSlide, 3000);
+  }
+
+  function stopAutoSlide() {
+    clearInterval(autoSlide);
+  }
+
+  // Pause on hover/touch
+  carousel.addEventListener('mouseenter', stopAutoSlide);
+  carousel.addEventListener('mouseleave', startAutoSlide);
+  carousel.addEventListener('touchstart', stopAutoSlide);
+  carousel.addEventListener('touchend', startAutoSlide);
+
+  // Recalculate when resizing
+  window.addEventListener('resize', updateSlidePosition);
+
+  // Wait until all images are loaded before starting
+  window.addEventListener('load', () => {
     updateSlidePosition();
-  }, 3000);
+    startAutoSlide();
+  });
 </script>
 </body>
 </html>
+
 
 
 
