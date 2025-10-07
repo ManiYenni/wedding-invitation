@@ -754,15 +754,27 @@ saveBtn.addEventListener("click", async () => {
     updateSlidePosition();
   }
 
-  nextButton.addEventListener('click', nextSlide);
-  prevButton.addEventListener('click', prevSlide);
+  nextButton.addEventListener('click', () => {
+    nextSlide();
+    restartAutoSlide(); // reset timer after manual navigation
+  });
+
+  prevButton.addEventListener('click', () => {
+    prevSlide();
+    restartAutoSlide(); // reset timer after manual navigation
+  });
 
   function startAutoSlide() {
-    autoSlide = setInterval(nextSlide, 3000);
+    autoSlide = setInterval(nextSlide, 5000); // 🔹 waits 5 seconds before next slide
   }
 
   function stopAutoSlide() {
     clearInterval(autoSlide);
+  }
+
+  function restartAutoSlide() {
+    stopAutoSlide();
+    startAutoSlide();
   }
 
   // Pause on hover/touch
@@ -771,10 +783,10 @@ saveBtn.addEventListener("click", async () => {
   carousel.addEventListener('touchstart', stopAutoSlide);
   carousel.addEventListener('touchend', startAutoSlide);
 
-  // Recalculate when resizing
+  // Recalculate position on window resize
   window.addEventListener('resize', updateSlidePosition);
 
-  // Wait until all images are loaded before starting
+  // Start after all images load
   window.addEventListener('load', () => {
     updateSlidePosition();
     startAutoSlide();
@@ -782,6 +794,7 @@ saveBtn.addEventListener("click", async () => {
 </script>
 </body>
 </html>
+
 
 
 
