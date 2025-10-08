@@ -185,6 +185,21 @@
       transition: transform 0.3s ease, background 0.3s ease;
     }
 
+    .phone-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #0077cc;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.phone-link:hover {
+  color: #005fa3;
+  text-decoration: underline;
+}
+
     .map-link:hover {
       background: #c22d5d;
       transform: scale(1.1);
@@ -451,25 +466,64 @@
 <section>
   <h2 id="homes-title">Our Homes</h2>
   <div class="details">
+    <!-- Bride's Home -->
     <div class="card">
       <h3 id="bride-home">🏠 Bride’s Home</h3>
       <p id="bride-namee">Indhu Pydi</p>
       <p id="bride-father">Father: Janardhana Rao</p>
-      <p id="bride-address">No:G2, RS Devi Complex, ramalaxmana, junction, GT Rd, opp. Relax hotel, Indira Nagar Colony, Visakha B Colony, Radha Krishna Nagar Colony, Srikakulam, Andhra Pradesh 532001</p>
+      <p id="bride-address">
+        No:G2, RS Devi Complex, ramalaxmana, junction, GT Rd, opp. Relax hotel,
+        Indira Nagar Colony, Visakha B Colony, Radha Krishna Nagar Colony,
+        Srikakulam, Andhra Pradesh 532001
+      </p>
       <p id="bride-reception"><b>Reception:</b> 23 Nov, 8:00 AM</p>
-      <a class="map-link" href="https://maps.app.goo.gl/ZqgNAyXSsUGM6ttV7" target="_blank" id="bride-map">View on Map</a>
+
+      <!-- ✅ Bride Phone -->
+      <p id="bride-phone">
+        <a href="tel:+916281737738" class="phone-link">
+          📞 +91 6281737738
+        </a>
+      </p>
+
+      <a
+        class="map-link"
+        href="https://maps.app.goo.gl/ZqgNAyXSsUGM6ttV7"
+        target="_blank"
+        id="bride-map"
+        >View on Map</a
+      >
     </div>
+
+    <!-- Groom's Home -->
     <div class="card">
       <h3 id="groom-home">🏠 Groom’s Home</h3>
       <p id="groom-namee">Mani Yenni</p>
       <p id="groom-father">Father: Dalinaidu</p>
-      <p id="groom-address">2-2-27, Venkayyapeta (Village), Korlakota (Post), Amadalavalasa (Mandal), Srikakulam (District), Andhra Pradesh 532185</p>
+      <p id="groom-address">
+        2-2-27, Venkayyapeta (Village), Korlakota (Post), Amadalavalasa
+        (Mandal), Srikakulam (District), Andhra Pradesh 532185
+      </p>
       <p id="groom-lunch"><b>Lunch:</b> 25 Nov, 6:00 PM</p>
       <p id="groom-marriage"><b>Marriage:</b> 26 Nov, 5:00 AM</p>
-      <a class="map-link" href="https://maps.app.goo.gl/Nzt3ZYWVp2fxScz36" target="_blank" id="groom-map">View on Map</a>
+
+      <!-- ✅ Groom Phone -->
+      <p id="groom-phone">
+        <a href="tel:+918639265187" class="phone-link">
+          📞 +91 8639265187
+        </a>
+      </p>
+
+      <a
+        class="map-link"
+        href="https://maps.app.goo.gl/Nzt3ZYWVp2fxScz36"
+        target="_blank"
+        id="groom-map"
+        >View on Map</a
+      >
     </div>
   </div>
 </section>
+
 
 <section>
   <h2 id="venue-title">Wedding Venue</h2>
@@ -794,6 +848,7 @@ saveBtn.addEventListener("click", async () => {
 </script>
 </body>
 </html>
+
 
 
 
