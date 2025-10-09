@@ -1,421 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mani ❤️ Indhu Wedding Card</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mani ❤️ Indhu — Wedding Card</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-      color: #2c2c2c;
-      line-height: 1.6;
-      overflow-x: hidden;
+    :root{
+      --accent: #e63971;
+      --accent-2: #c22d5d;
+      --gold: #d4b483;
+      --bg-1: linear-gradient(135deg,#fdfbfb 0%, #ebedee 100%);
+      --bg-2: linear-gradient(135deg,#fff8f8, #f6f7fb);
+      --card: #ffffff;
+      --muted: #777;
+      --text: #222;
+      --glass: rgba(255,255,255,0.6);
+    }
+    /* Dark theme vars override */
+    body.dark {
+      --bg-1: linear-gradient(135deg,#0f0f16,#1a1a2a);
+      --bg-2: linear-gradient(135deg,#12121b,#212136);
+      --card: #242436;
+      --muted: #bdbbcc;
+      --text: #f3f3f6;
+      --glass: rgba(255,255,255,0.04);
     }
 
-    h1, h2, h3 {
-      font-family: 'Playfair Display', serif;
-      color: #1a1a1a;
-      margin-bottom: 10px;
+    /* Reset & base */
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      background:var(--bg-1);
+      color:var(--text);
+      line-height:1.5;
+      -webkit-font-smoothing:antialiased;
+      transition: background .45s ease, color .3s ease;
+      overflow-x:hidden;
     }
 
-    /* 🔹 Language toggle */
-    .lang-toggle {
-      position: fixed;
-      top: 15px;
-      right: 20px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 600;
-      z-index: 9999;
+    /* Top-floating controls container (theme + music + language) */
+    .top-controls{
+      position:fixed;
+      display:flex;
+      gap:8px;
+      top:12px;
+      left:12px;
+      z-index:9999;
+      align-items:center;
+    }
+    .top-controls .btn{
+      background:var(--glass);
+      border:1px solid rgba(0,0,0,0.06);
+      backdrop-filter: blur(6px);
+      padding:8px 10px;
+      border-radius:12px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-weight:600;
+      box-shadow:0 6px 18px rgba(0,0,0,0.08);
+      transition: transform .18s ease, background .2s;
+    }
+    .top-controls .btn:active{ transform: scale(.98) }
+    .top-controls .small{
+      padding:8px;
+      width:44px;
+      height:44px;
+      justify-content:center;
+      border-radius:50%;
+      font-size:18px;
     }
 
-    .lang-toggle span {
-      transition: 0.3s;
+    /* Language toggle was top-right originally — keep that intact but slightly restyled */
+    .lang-toggle{
+      position:fixed;
+      top:12px;
+      right:18px;
+      z-index:9999;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      background:var(--glass);
+      padding:6px 10px;
+      border-radius:14px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.06);
     }
+    .lang-toggle span{font-weight:600; cursor:pointer; opacity:.7; transition: .2s}
+    .lang-toggle span.active{ color:var(--accent); opacity:1; }
+    .switch{ position:relative; width:46px; height:24px; display:inline-block; }
+    .switch input{ opacity:0; width:0; height:0; }
+    .slider{ position:absolute; cursor:pointer; inset:0; background:#d8d8d8; border-radius:24px; transition:.25s; }
+    .slider:before{ content:""; position:absolute; left:3px; bottom:3px; width:18px; height:18px; background:white; border-radius:50%; transition:.25s; }
+    input:checked + .slider{ background:var(--accent); }
+    input:checked + .slider:before{ transform: translateX(22px); }
 
-    .lang-toggle span.active {
-      color: #e63971;
-      font-weight: 700;
+    /* Header */
+    header.wedding-header{
+      padding:56px 18px 80px;
+      text-align:center;
+      background: linear-gradient(135deg,#ff9a9e,#fad0c4);
+      color:white;
+      border-bottom-left-radius:50% 18%;
+      border-bottom-right-radius:50% 18%;
+      position:relative;
+      overflow:hidden;
+      transition: background .4s ease;
     }
-
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 46px;
-      height: 24px;
+    body.dark header.wedding-header{
+      background: linear-gradient(135deg,#3b2a72,#421d79);
     }
+    header h1{ font-family:'Playfair Display',serif; font-size:2.9rem; margin:0; letter-spacing:.6px; display:flex; justify-content:center; gap:10px; align-items:center; flex-wrap:wrap; }
+    header p{ margin:8px 0 0; opacity:.95; font-weight:300 }
 
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
+    .and{ color: #fff; font-size:1.7rem; animation: heartbeat 1.6s infinite; display:inline-block; margin:0 6px; }
+
+    /* Content sections */
+    section{
+      max-width:960px;
+      margin:34px auto;
+      padding:26px;
+      background:var(--card);
+      border-radius:18px;
+      box-shadow: 0 12px 40px rgba(10,10,20,0.06);
+      transition: background .35s ease, box-shadow .25s ease;
     }
+    section h2{ text-align:center; color:var(--accent); margin-top:0; font-size:1.6rem; font-family:'Playfair Display',serif; }
 
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: 0.4s;
-      border-radius: 24px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: 0.4s;
-      border-radius: 50%;
-    }
-
-    input:checked + .slider {
-      background-color: #e63971;
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(22px);
-    }
-
-    /* Other existing styles (header, sections, etc.) remain same */
-    header {
+    .details{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; margin-top:14px; }
+    .card{
+      padding:18px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      transition: transform .25s ease, box-shadow .25s ease;
       text-align: center;
-      padding: 60px 20px;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      color: white;
-      border-bottom-left-radius: 50% 20%;
-      border-bottom-right-radius: 50% 20%;
-      position: relative;
-      overflow: hidden;
-      animation: fadeInDown 2s ease-in-out;
+    }
+    .card h3{ margin:0; color:var(--accent); font-family:'Playfair Display',serif }
+    .card p{ margin:8px 0; color:var(--muted) }
+
+    .map-link{ display:inline-block; margin-top:10px; padding:8px 14px; background:var(--accent); color:white; border-radius:20px; text-decoration:none; transition: transform .18s; }
+    .map-link:hover{ transform: translateY(-4px); background:var(--accent-2); }
+
+    .phone-link{ color:inherit; text-decoration:none; display:inline-flex; gap:8px; align-items:center; font-weight:600; color:#0b66a8 }
+
+    /* upload card */
+    .upload-card{ display:flex; flex-direction:column; gap:12px; align-items:center; justify-content:center; padding:18px; border-radius:14px; }
+    .preview img{ max-width:200px; border-radius:12px; box-shadow:0 8px 26px rgba(0,0,0,0.12); }
+    #details input[type="text"]{ width:80%; padding:10px; border-radius:10px; border:1px solid #ddd; }
+    #details button{ padding:10px 18px; border-radius:22px; border:none; background:var(--accent); color:white; cursor:pointer; font-weight:600 }
+    #details button:hover{ transform:scale(1.03); background:var(--accent-2); }
+
+    .rsvp{ display:flex; gap:12px; align-items:center; justify-content:center; flex-wrap:wrap }
+
+    /* carousel */
+    .carousel{ position:relative; width:100%; max-width:860px; margin:0 auto; overflow:hidden; border-radius:12px; box-shadow:0 8px 26px rgba(0,0,0,0.08) }
+    .carousel-track{ display:flex; transition:transform .5s ease-in-out; }
+    .carousel img{ width:100%; height:auto; object-fit:cover; flex-shrink:0 }
+    .carousel button{ position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.45); color:white; border:none; padding:8px 12px; font-size:20px; border-radius:50%; cursor:pointer }
+    .carousel .prev{ left:12px } .carousel .next{ right:12px }
+
+    /* countdown */
+    .countdown{ text-align:center; font-size:1.4rem; margin-top:8px; font-weight:600; color:var(--text) }
+
+    footer{ text-align:center; color:var(--muted); padding:20px 10px; font-size:0.95rem }
+
+    /* hearts */
+    .hearts{ position:absolute; inset:0; pointer-events:none }
+    .hearts span{ position:absolute; bottom:-10px; font-size:22px; animation: floatUp 6s linear infinite; color:rgba(255,255,255,0.85) }
+    .hearts span:nth-child(1){ left:20%; animation-duration:5s }
+    .hearts span:nth-child(2){ left:40%; animation-duration:6s }
+    .hearts span:nth-child(3){ left:60%; animation-duration:7s }
+    .hearts span:nth-child(4){ left:80%; animation-duration:4s }
+    .hearts span:nth-child(5){ left:50%; animation-duration:5.5s }
+
+    @keyframes floatUp{ 0%{transform:translateY(0) scale(0.9); opacity:1} 50%{transform:translateY(-200px) scale(1.1); opacity:.75} 100%{transform:translateY(-400px) scale(0.9); opacity:0} }
+    @keyframes heartbeat{ 0%,40%,80%,100%{transform:scale(1)} 20%,60%{transform:scale(1.28)} }
+
+    /* responsive */
+    @media (max-width:600px){
+      header h1{ font-size:1.9rem }
+      .top-controls{ left:8px } .lang-toggle{ right:8px }
     }
 
-    .wedding-header .and {
-      color: #fff;
-      font-size: 1.8rem;
-      display: inline-block;
-      margin: 0 10px;
-      animation: heartbeat 1.5s infinite;
-    }
-
-    @media (max-width: 600px) {
-      .wedding-header h1 {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .wedding-header .and {
-        margin: 10px 0;
-      }
-    }
-
-    header h1 {
-      font-size: 3rem;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      font-size: 1.2rem;
-      font-weight: 300;
-      opacity: 0;
-      animation: fadeIn 2s forwards;
-    }
-
-    section {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 30px;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      animation: fadeUp 1.5s ease-in-out;
-    }
-
-    section h2 {
-      text-align: center;
-      color: #e63971;
-      margin-bottom: 25px;
-      font-size: 2rem;
-      animation: pulse 2s infinite;
-    }
-
-    .details {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: #fafafa;
-      border-radius: 15px;
-      padding: 20px;
-      text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      animation: fadeIn 1.2s ease-in-out;
-    }
-
-    .card:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.1);
-    }
-
-    .card h3 {
-      color: #e63971;
-      margin-bottom: 10px;
-    }
-
-    .map-link {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 10px 18px;
-      background: #e63971;
-      color: white;
-      border-radius: 25px;
-      font-size: 0.9rem;
-      transition: transform 0.3s ease, background 0.3s ease;
-    }
-
-    .phone-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  color: #0077cc;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
-}
-
-.phone-link:hover {
-  color: #005fa3;
-  text-decoration: underline;
-}
-
-    .map-link:hover {
-      background: #c22d5d;
-      transform: scale(1.1);
-    }
-
-    .countdown {
-      text-align: center;
-      font-size: 1.8rem;
-      font-weight: 500;
-      color: #333;
-      margin-top: 15px;
-      animation: fadeIn 2s ease-in-out;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
-      font-size: 0.9rem;
-      color: #777;
-      animation: fadeUp 1.5s ease-in-out;
-    }
-
-    .hearts {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .hearts span {
-      position: absolute;
-      bottom: -10px;
-      font-size: 24px;
-      animation: floatUp 6s linear infinite;
-      color: rgba(255, 255, 255, 0.8);
-    }
-
-    .hearts span:nth-child(1) { left: 20%; animation-duration: 5s; }
-    .hearts span:nth-child(2) { left: 40%; animation-duration: 6s; }
-    .hearts span:nth-child(3) { left: 60%; animation-duration: 7s; }
-    .hearts span:nth-child(4) { left: 80%; animation-duration: 4s; }
-    .hearts span:nth-child(5) { left: 50%; animation-duration: 5.5s; }
-
-    @keyframes floatUp {
-      0% { transform: translateY(0) scale(0.8); opacity: 1; }
-      50% { transform: translateY(-200px) scale(1.2); opacity: 0.7; }
-      100% { transform: translateY(-400px) scale(0.9); opacity: 0; }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes heartbeat {
-      0%, 40%, 80%, 100% { transform: scale(1); }
-      20%, 60% { transform: scale(1.3); }
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-
-    .upload-card {
-  background: #fafafa;
-  padding: 20px;
-  border-radius: 20px;
-  text-align: center;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-}
-
-.preview img {
-  margin-top: 15px;
-  max-width: 200px;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-  animation: fadeIn 1s ease-in-out;
-}
-
-#details input[type="text"] {
-  width: 80%;
-  padding: 10px;
-  margin-bottom: 12px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-}
-
-.rsvp {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 12px;
-  font-size: 0.95rem;
-  color: #444;
-}
-
-#details button {
-  padding: 10px 20px;
-  background: #e63971;
-  color: white;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-#details button:hover {
-  background: #c22d5d;
-  transform: scale(1.05);
-}* {
-    box-sizing: border-box;
-  }
-
-  .carousel {
-    position: relative;
-    width: 100%;
-    max-width: 800px;
-    margin: auto;
-    overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
-
-  .carousel-track {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-  }
-
-  .carousel img {
-    width: 100%;
-    height: auto;
-    flex-shrink: 0;
-    object-fit: cover;
-  }
-
-  .carousel button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    cursor: pointer;
-    padding: 10px 14px;
-    font-size: 20px;
-    border-radius: 50%;
-    z-index: 10;
-  }
-
-  .carousel button:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-  }
-
-  .prev {
-    left: 10px;
-  }
-
-  .next {
-    right: 10px;
-  }
-
-  /* 📱 Responsive Tweaks */
-  @media (max-width: 768px) {
-    h2 {
-      font-size: 1.5rem;
-    }
-
-    button {
-      font-size: 1.5rem;
-      padding: 4px 8px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    h2 {
-      font-size: 1.3rem;
-    }
-
-    button {
-      font-size: 1.2rem;
-      padding: 3px 6px;
-    }
-
-    .carousel {
-      border-radius: 8px;
-    }
-  }
+    /* small helper text under music controls */
+    .music-info{ font-size:0.85rem; color:var(--muted); margin-left:6px }
+    .hidden{ display:none!important }
   </style>
-   
 </head>
 <body>
 
-<!-- 🔹 Language Toggle Switch -->
-<div class="lang-toggle">
-  <span id="lang-en" class="active">EN</span>
-  <label class="switch">
-    <input type="checkbox" id="lang-switch" onchange="toggleLanguage()">
-    <span class="slider"></span>
-  </label>
-  <span id="lang-te">TE</span>
-</div>
+  <!-- TOP CONTROLS: Theme + Music upload/URL + Play/Pause -->
+  <div class="top-controls" aria-hidden="false">
+    <div class="btn small" id="theme-toggle" title="Toggle dark / light mode">🌙</div>
+  </div>
+
+  <!-- Language Toggle (keeps original UI but adapted) -->
+  <div class="lang-toggle" aria-hidden="false">
+    <span id="lang-en" class="active">EN</span>
+    <label class="switch" title="Toggle Language">
+      <input type="checkbox" id="lang-switch" onchange="toggleLanguage()" />
+      <span class="slider"></span>
+    </label>
+    <span id="lang-te">TE</span>
+  </div>
 
 <header class="wedding-header">
   <div class="hearts">
@@ -640,6 +430,22 @@
     document.getElementById("lang-te").classList.toggle("active", isTelugu);
   }
 
+  /*********************
+   * THEME (dark/light)
+   *********************/
+  const themeBtn = document.getElementById('theme-toggle');
+  // reflect saved preference if we want:
+  if (localStorage.getItem('wc_theme') === 'dark') document.body.classList.add('dark'), themeBtn.textContent = '☀️';
+  themeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    const isDark = document.body.classList.contains('dark');
+    themeBtn.textContent = isDark ? '☀️' : '🌙';
+    localStorage.setItem('wc_theme', isDark ? 'dark' : 'light');
+  });
+  /*********************
+   * END THEME
+   *********************/
+
   // Countdown Timer
   const weddingDate = new Date("Nov 26, 2025 05:00:00").getTime();
   const timer = setInterval(() => {
@@ -848,7 +654,6 @@ saveBtn.addEventListener("click", async () => {
 </script>
 </body>
 </html>
-
 
 
 
