@@ -184,6 +184,21 @@
       header h1{ font-size:1.9rem }
       .top-controls{ left:8px } .lang-toggle{ right:8px }
     }
+
+    /* Disable image dragging and selection */
+  img {
+    pointer-events: none;
+    -webkit-user-drag: none;
+    user-select: none;
+  }
+
+/* Disable text selection globally */
+    body {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
   </style>
 </head>
 <body>
@@ -219,7 +234,7 @@
   <p id="invite-text">We joyfully invite you to our wedding celebration</p>
   <p id="date-text"><b>25th November 2025</b></p>
 </header>
-<section style="display:none">
+<section>
   <h2>📸 Upload Your Selfie to Mark Attendance</h2>
   <div class="upload-card">
     <input type="file" id="photo" accept="image/*" capture="user" required />
@@ -318,7 +333,7 @@
     <a class="map-link" href="https://maps.app.goo.gl/Nzt3ZYWVp2fxScz36" target="_blank" id="venue-map">View Venue</a>
   </div>
 </section>
-<section style="display:none">
+<section>
   <h2 id="photos-title">Meet the Bride & Groom</h2>
   <div class="carousel">
   <div class="carousel-track">
@@ -339,7 +354,15 @@
 <footer id="footer-text">
   With love ❤️ Mani & Indhu
 </footer>
-
+<div id="overlay-protect"
+  style="
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    pointer-events: none;
+    background: rgba(255,255,255,0.01);
+    mix-blend-mode: difference;">
+</div>
 <script>
   let isTelugu = false;
 
@@ -648,8 +671,54 @@ saveBtn.addEventListener("click", async () => {
     startAutoSlide();
   });
 </script>
+  <script>
+// Disable right-click (context menu)
+document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+// Disable copying
+document.addEventListener('copy', (e) => {
+  e.preventDefault();
+  alert("Copying content is disabled 💖");
+});
+
+// Disable cut, paste, drag, and drop
+['cut', 'paste', 'dragstart', 'drop'].forEach(evt =>
+  document.addEventListener(evt, e => e.preventDefault())
+);
+
+// Disable text selection
+document.addEventListener('selectstart', (e) => e.preventDefault());
+
+// Disable screenshot shortcuts (works for most key combos in browsers)
+document.addEventListener('keydown', (e) => {
+  // Block PrintScreen, Ctrl+S, Ctrl+U, F12, etc.
+  if (
+    e.key === "PrintScreen" ||
+    (e.ctrlKey && e.key.toLowerCase() === 's') ||
+    (e.ctrlKey && e.key.toLowerCase() === 'u') ||
+    e.key === "F12" ||
+    (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i')
+  ) {
+    e.preventDefault();
+    alert("Screenshots and downloads are disabled 💕");
+  }
+});
+
+// Optional: periodically clear clipboard for extra security
+setInterval(() => {
+  navigator.clipboard.writeText("");
+}, 3000);
+document.addEventListener('keydown', (e) => {
+  if (e.key === "PrintScreen") {
+    document.body.style.filter = "blur(10px)";
+    alert("Screenshots are disabled ❌");
+    setTimeout(() => document.body.style.filter = "none", 2000);
+  }
+});
+</script>
 </body>
 </html>
+
 
 
 
