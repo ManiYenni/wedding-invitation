@@ -672,22 +672,22 @@ saveBtn.addEventListener("click", async () => {
   });
 </script>
   <script>
-// Disable right-click (context menu)
-document.addEventListener('contextmenu', (e) => e.preventDefault());
-
-// Disable copying
-document.addEventListener('copy', (e) => {
-  e.preventDefault();
-  alert("Copying content is disabled 💖");
-});
-
-// Disable cut, paste, drag, and drop
-['cut', 'paste', 'dragstart', 'drop'].forEach(evt =>
-  document.addEventListener(evt, e => e.preventDefault())
-);
-
-// Disable text selection
-document.addEventListener('selectstart', (e) => e.preventDefault());
+  // Disable text selection
+  document.addEventListener('selectstart', (e) => e.preventDefault());
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('copy', e => e.preventDefault());
+  document.addEventListener('cut', e => e.preventDefault());
+  document.addEventListener('dragstart', e => e.preventDefault());
+  document.addEventListener('drop', e => e.preventDefault());
+  document.addEventListener('keydown', e => {
+    // Block DevTools, Save, View Source
+    if (
+      e.key === "F12" ||
+      (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "i") ||
+      (e.ctrlKey && e.key.toLowerCase() === "s") ||
+      (e.ctrlKey && e.key.toLowerCase() === "u")
+    ) e.preventDefault();
+  });
 
 // Disable screenshot shortcuts (works for most key combos in browsers)
 document.addEventListener('keydown', (e) => {
@@ -707,17 +707,11 @@ document.addEventListener('keydown', (e) => {
 // Optional: periodically clear clipboard for extra security
 setInterval(() => {
   navigator.clipboard.writeText("");
-}, 3000);
-document.addEventListener('keydown', (e) => {
-  if (e.key === "PrintScreen") {
-    document.body.style.filter = "blur(10px)";
-    alert("Screenshots are disabled ❌");
-    setTimeout(() => document.body.style.filter = "none", 2000);
-  }
-});
+}, 3000)
 </script>
 </body>
 </html>
+
 
 
 
