@@ -760,10 +760,39 @@ document.addEventListener('keydown', (e) => {
 // Optional: periodically clear clipboard for extra security
 setInterval(() => {
   navigator.clipboard.writeText("");
-}, 3000)
+}, 3000);
+document.addEventListener("DOMContentLoaded", function () {
+  const carousel = document.getElementById("video-carousel");
+  const track = carousel.querySelector(".carousel-track");
+  const slides = Array.from(track.children);
+  const prevButton = carousel.querySelector(".prev");
+  const nextButton = carousel.querySelector(".next");
+  
+  let currentIndex = 0;
+
+  function updateCarousel() {
+    const slideWidth = slides[0].getBoundingClientRect().width;
+    track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+    track.style.transition = "transform 0.5s ease-in-out";
+  }
+
+  nextButton.addEventListener("click", () => {
+    currentIndex = (currentIndex + 1) % slides.length;
+    updateCarousel();
+  });
+
+  prevButton.addEventListener("click", () => {
+    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+    updateCarousel();
+  });
+
+  window.addEventListener("resize", updateCarousel);
+});
+
 </script>
 </body>
 </html>
+
 
 
 
