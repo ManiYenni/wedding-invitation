@@ -199,6 +199,19 @@
       -ms-user-select: none;
       user-select: none;
     }
+    #video-carousel iframe {
+      width: 100%;
+      height: 480px;
+      border-radius: 12px;
+      flex-shrink: 0;
+      transition: transform 0.5s ease-in-out;
+    }
+    @media (max-width: 768px) {
+      #video-carousel iframe {
+        height: 260px;
+      }
+   }
+
   </style>
 </head>
 <body>
@@ -346,6 +359,46 @@
   <button class="next">›</button>
 </div>
 </section>
+<section>
+  <h2 id="cartoon-title">🎬 Our Cartoon Wedding Invitation</h2>
+  <p style="text-align:center; color:var(--muted); margin-bottom:20px;">
+    Watch our cute animated wedding stories 💖
+  </p>
+
+  <!-- Cartoon Videos Carousel -->
+  <div class="carousel" id="video-carousel">
+    <div class="carousel-track">
+      <!-- Replace YouTube links or MP4 file paths below -->
+      <iframe 
+        src="video_1" 
+        title="Cartoon Invitation 1"
+        frameborder="0"
+        allowfullscreen
+        loading="lazy">
+      </iframe>
+
+      <iframe 
+        src="video_2"
+        title="Cartoon Invitation 2"
+        frameborder="0"
+        allowfullscreen
+        loading="lazy">
+      </iframe>
+
+      <iframe 
+        src="video_3"
+        title="Cartoon Invitation 3"
+        frameborder="0"
+        allowfullscreen
+        loading="lazy">
+      </iframe>
+    </div>
+
+    <button class="prev">‹</button>
+    <button class="next">›</button>
+  </div>
+</section>
+
 <section>
   <h2 id="countdown-title">Countdown to Our Big Day</h2>
   <div class="countdown" id="countdown"></div>
@@ -711,6 +764,7 @@ setInterval(() => {
 </script>
 </body>
 </html>
+
 
 
 
